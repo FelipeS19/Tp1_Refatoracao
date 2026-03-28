@@ -16,11 +16,19 @@ class GildedRose {
         updaters.put("Aged Brie", new AgedBrieUpdater());
         updaters.put("Backstage passes to a TAFKAL80ETC concert", new BackstagePassUpdater());
         updaters.put("Sulfuras, Hand of Ragnaros", new SulfurasUpdater());
+
     }
 
     public void updateQuality() {
         for (Item item : items) {
-            ItemUpdater updater = updaters.getOrDefault(item.name, new DefaultUpdater());
+            ItemUpdater updater;
+
+            if (item.name.contains("Conjured")) {
+                updater = new ConjuredItemUpdater();
+            } else {
+                updater = updaters.getOrDefault(item.name, new DefaultUpdater());
+            }
+
             updater.update(item);
         }
     }
